@@ -42,8 +42,8 @@
                 <Button Grid.Row="0" Grid.Column="2" 
                         Command="{Binding ScreenShotCommand, Mode=OneWay}"
                         CommandParameter="{Binding ElementName=Content}"                                                        
-                        ToolTip="Save screenshot to clipboard">
-                    Copy
+                        ToolTip="Copy screenshot to clipboard">
+                    Copy to clipboard
                 </Button>
                 
                 <oxy:PlotView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Model="{Binding Model1}"/>

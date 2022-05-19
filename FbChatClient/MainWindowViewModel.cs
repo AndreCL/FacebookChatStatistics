@@ -1,6 +1,5 @@
 ﻿using OxyPlot;
 using OxyPlot.Series;
-using FbChats;
 using System.Linq;
 using System.Collections.Generic;
 using OxyPlot.Axes;
@@ -8,6 +7,7 @@ using System;
 using System.Windows.Input;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using FbChatClient.Functions;
 
 namespace FbChatClient;
 public class MainWindowViewModel

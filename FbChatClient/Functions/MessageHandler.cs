@@ -1,13 +1,18 @@
-﻿using System.Text.Json;
+﻿using FbChatClient.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
 
-namespace FbChats;
+namespace FbChatClient.Functions;
 public class MessageHandler
 {
     private string _inboxFolderLocation;
-    private List<Message> messages;
+    private List<Message> messages = new List<Message>();
 
     public FileGymnastics FileGymnastics { get; set; }
-    public string MyName { get; set; }
+    public string MyName { get; set; } = "";
     public int NumberOfChats { get; set; }
     public DateTime First { get; set; }
     public DateTime Last { get; set; }

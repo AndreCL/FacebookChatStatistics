@@ -1,16 +1,17 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
-namespace FbChats;
+namespace FbChatClient.Models;
 public class Message
 {
     [JsonPropertyName("sender_name")]
-    public string SenderName { get; set; }
+    public string SenderName { get; set; } = "";
 
     [JsonPropertyName("timestamp_ms")]
     public ulong TimeStampMs { get; set; }
 
     [JsonPropertyName("content")]
-    public string Content { get; set; }
+    public string Content { get; set; } = "";
 
     public DateTime MessageDate()
     {

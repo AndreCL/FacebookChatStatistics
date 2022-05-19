@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace FbChatClient
+namespace FbChatClient.Functions
 {
     internal static class Screenshot
     {

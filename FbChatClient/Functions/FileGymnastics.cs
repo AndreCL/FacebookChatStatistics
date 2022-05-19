@@ -1,4 +1,7 @@
-﻿namespace FbChats;
+﻿using System.IO;
+using System.Linq;
+
+namespace FbChatClient.Functions;
 
 public class FileGymnastics
 {
@@ -37,7 +40,6 @@ public class FileGymnastics
     {
         if (Directory.Exists(directory))
         {
-            Console.WriteLine($"{directory} exists");
             return true;
         }
         return false;
@@ -46,8 +48,6 @@ public class FileGymnastics
     private int NumberOfChats()
     {
         var amount = Directory.GetDirectories(InboxDirectory()).Length;
-
-        Console.WriteLine($"{amount} chats found");
 
         return amount;
     }
