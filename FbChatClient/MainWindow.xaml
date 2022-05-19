@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FbChatClient"
         mc:Ignorable="d"
         xmlns:oxy="http://oxyplot.org/wpf"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1200">
 
     <Window.DataContext>
         <local:MainWindowViewModel/>
@@ -20,10 +20,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="500"/>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="400"/>
                     <RowDefinition Height="400"/>
                     <RowDefinition Height="400"/>
                     <RowDefinition Height="400"/>
