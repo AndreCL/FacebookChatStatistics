@@ -8,4 +8,5 @@ Windows app to analyze Facebook chat data
 - Selectable user
 - Auto number of years
 - Format copy button
+- Make responsive
 

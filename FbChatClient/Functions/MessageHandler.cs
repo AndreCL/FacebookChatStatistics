@@ -9,7 +9,7 @@ namespace FbChatClient.Functions;
 public class MessageHandler
 {
     private string _inboxFolderLocation;
-    private List<Message> messages = new List<Message>();
+    private List<Message> messages = new();
 
     public FileGymnastics FileGymnastics { get; set; }
     public string MyName { get; set; } = "";
@@ -20,15 +20,6 @@ public class MessageHandler
     public MessageHandler(string inboxFolderLocation)
     {
         _inboxFolderLocation = inboxFolderLocation;
-
-        try
-        {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-        }
-        catch (Exception ex)
-        {
-
-        }
 
         FileGymnastics = new FileGymnastics(_inboxFolderLocation);
     }
@@ -61,29 +52,7 @@ public class MessageHandler
             {
                 string jsonString = File.ReadAllText(file, System.Text.Encoding.UTF8);
 
-                jsonString = jsonString.Replace("\\u00c3\\u0081", "Á");
-                jsonString = jsonString.Replace("\\u00c3\\u00a1", "á");
-                jsonString = jsonString.Replace("\\u00c3\\u00a9", "é");
-                jsonString = jsonString.Replace("\\u00c3\\u00ad", "í");
-                jsonString = jsonString.Replace("\\u00c3\\u00b3", "ó");
-
-                jsonString = jsonString.Replace("\\u00c3\\u00b6", "ö");
-                jsonString = jsonString.Replace("\\u00c3\\u00bc", "ü");
-
-                jsonString = jsonString.Replace("\\u00c3\\u00a3", "ã");
-                jsonString = jsonString.Replace("\\u00c3\\u00b1", "ñ");
-
-                jsonString = jsonString.Replace("\\u00c3\\u0098", "Ø");
-                jsonString = jsonString.Replace("\\u00c3\\u00b8", "ø");
-                jsonString = jsonString.Replace("\\u00c3\\u00a6", "æ");
-                jsonString = jsonString.Replace("\\u00c3\\u00a5", "å");
-                jsonString = jsonString.Replace("\\u00c5\\u0088", "ň");
-                jsonString = jsonString.Replace("\\u00c5\\u0099", "ř");
-                jsonString = jsonString.Replace("\\u00c4\\u0097", "ė");
-                jsonString = jsonString.Replace("\\u00c5\\u00a0", "Š");
-                jsonString = jsonString.Replace("\\u00c4\\u008d", "č");
-                jsonString = jsonString.Replace("\\u00c3\\u00a7", "ç");
-
+                jsonString = TextProcessing.FixFBEncodingIssues(jsonString);
 
                 JsonFile result = JsonSerializer.Deserialize<JsonFile>(jsonString);
                 if (result != null)
@@ -147,5 +116,4 @@ public class MessageHandler
         }
         return names;
     }
-
 }
