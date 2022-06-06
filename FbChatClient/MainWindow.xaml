@@ -14,7 +14,7 @@
 
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
+        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid x:Name="Content">
 
                 <Grid.RowDefinitions>
@@ -28,9 +28,9 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="420"/>
-                    <ColumnDefinition Width="420"/>
-                    <ColumnDefinition Width="420"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=LogText, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
@@ -42,7 +42,11 @@
                     Copy to clipboard
                 </Button>
                 
-                <oxy:PlotView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Model="{Binding Model1}"/>
+                <oxy:PlotView Grid.Row="1" 
+                              Grid.Column="0" 
+                              Grid.ColumnSpan="3" 
+                              Model="{Binding Model1}"
+                              />
                 <oxy:PlotView Grid.Row="2" Grid.Column="0" Model="{Binding Model2}"/>
                 <oxy:PlotView Grid.Row="2" Grid.Column="1" Model="{Binding Model3}"/>
                 <oxy:PlotView Grid.Row="2" Grid.Column="2" Model="{Binding Model4}"/>
