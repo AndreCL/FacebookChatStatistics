@@ -12,9 +12,9 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
 
-
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StackPanel VerticalAlignment="Stretch" 
+                    HorizontalAlignment="Stretch">
             <Grid x:Name="Content">
 
                 <Grid.RowDefinitions>
@@ -33,7 +33,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=LogText, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="0" 
+                           Grid.ColumnSpan="2" 
+                           Text="{Binding Path=LogText, UpdateSourceTrigger=PropertyChanged}">
+                </TextBlock>
 
                 <Button Grid.Row="0" Grid.Column="2" 
                         Command="{Binding ScreenShotCommand, Mode=OneWay}"
@@ -45,27 +48,53 @@
                 <oxy:PlotView Grid.Row="1" 
                               Grid.Column="0" 
                               Grid.ColumnSpan="3" 
-                              Model="{Binding Model1}"
-                              />
-                <oxy:PlotView Grid.Row="2" Grid.Column="0" Model="{Binding Model2}"/>
-                <oxy:PlotView Grid.Row="2" Grid.Column="1" Model="{Binding Model3}"/>
-                <oxy:PlotView Grid.Row="2" Grid.Column="2" Model="{Binding Model4}"/>
-                <oxy:PlotView Grid.Row="3" Grid.Column="0" Model="{Binding Model5}"/>
-                <oxy:PlotView Grid.Row="3" Grid.Column="1" Model="{Binding Model6}"/>
-                <oxy:PlotView Grid.Row="3" Grid.Column="2" Model="{Binding Model7}"/>
-                <oxy:PlotView Grid.Row="4" Grid.Column="0" Model="{Binding Model8}"/>
-                <oxy:PlotView Grid.Row="4" Grid.Column="1" Model="{Binding Model9}"/>
-                <oxy:PlotView Grid.Row="4" Grid.Column="2" Model="{Binding Model10}"/>
-                <oxy:PlotView Grid.Row="5" Grid.Column="0" Model="{Binding Model11}"/>
-                <oxy:PlotView Grid.Row="5" Grid.Column="1" Model="{Binding Model12}"/>
-                <oxy:PlotView Grid.Row="5" Grid.Column="2" Model="{Binding Model13}"/>
-                <oxy:PlotView Grid.Row="6" Grid.Column="0" Model="{Binding Model14}"/>
-                <oxy:PlotView Grid.Row="6" Grid.Column="1" Model="{Binding Model15}"/>
-                <oxy:PlotView Grid.Row="6" Grid.Column="2" Model="{Binding Model16}"/>
+                              Model="{Binding Model1}"/>
+                <oxy:PlotView Grid.Row="2" 
+                              Grid.Column="0" 
+                              Model="{Binding Model2}"/>
+                <oxy:PlotView Grid.Row="2" 
+                              Grid.Column="1" 
+                              Model="{Binding Model3}"/>
+                <oxy:PlotView Grid.Row="2" 
+                              Grid.Column="2" 
+                              Model="{Binding Model4}"/>
+                <oxy:PlotView Grid.Row="3" 
+                              Grid.Column="0" 
+                              Model="{Binding Model5}"/>
+                <oxy:PlotView Grid.Row="3" 
+                              Grid.Column="1" 
+                              Model="{Binding Model6}"/>
+                <oxy:PlotView Grid.Row="3" 
+                              Grid.Column="2" 
+                              Model="{Binding Model7}"/>
+                <oxy:PlotView Grid.Row="4" 
+                              Grid.Column="0" 
+                              Model="{Binding Model8}"/>
+                <oxy:PlotView Grid.Row="4" 
+                              Grid.Column="1" 
+                              Model="{Binding Model9}"/>
+                <oxy:PlotView Grid.Row="4" 
+                              Grid.Column="2" 
+                              Model="{Binding Model10}"/>
+                <oxy:PlotView Grid.Row="5" 
+                              Grid.Column="0" 
+                              Model="{Binding Model11}"/>
+                <oxy:PlotView Grid.Row="5" 
+                              Grid.Column="1" 
+                              Model="{Binding Model12}"/>
+                <oxy:PlotView Grid.Row="5" 
+                              Grid.Column="2" 
+                              Model="{Binding Model13}"/>
+                <oxy:PlotView Grid.Row="6" 
+                              Grid.Column="0" 
+                              Model="{Binding Model14}"/>
+                <oxy:PlotView Grid.Row="6" 
+                              Grid.Column="1" 
+                              Model="{Binding Model15}"/>
+                <oxy:PlotView Grid.Row="6" 
+                              Grid.Column="2" 
+                              Model="{Binding Model16}"/>
             </Grid>
         </StackPanel>
-
     </ScrollViewer>
-
-
 </Window>
