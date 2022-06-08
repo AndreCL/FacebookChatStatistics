@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FbChatClient.ViewModels"
         mc:Ignorable="d"
         xmlns:oxy="http://oxyplot.org/wpf" 
-        Title="MainWindow" Height="600" Width="1200">
+        Title="MainWindow" Height="600" Width="1000">
 
     <Window.DataContext>
         <local:MainWindowViewModel/>
@@ -19,12 +19,8 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="500"/>
                     <RowDefinition Height="400"/>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="400"/>
+                    <RowDefinition Height="1000"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -35,6 +31,7 @@
 
                 <TextBlock Grid.Row="0" Grid.Column="0" 
                            Grid.ColumnSpan="2" 
+                           Background="White"
                            Text="{Binding Path=LogText, UpdateSourceTrigger=PropertyChanged}">
                 </TextBlock>
 
@@ -44,56 +41,37 @@
                         ToolTip="Copy screenshot to clipboard">
                     Copy to clipboard
                 </Button>
-                
+
                 <oxy:PlotView Grid.Row="1" 
                               Grid.Column="0" 
                               Grid.ColumnSpan="3" 
-                              Model="{Binding Model1}"/>
-                <oxy:PlotView Grid.Row="2" 
-                              Grid.Column="0" 
-                              Model="{Binding Model2}"/>
-                <oxy:PlotView Grid.Row="2" 
-                              Grid.Column="1" 
-                              Model="{Binding Model3}"/>
-                <oxy:PlotView Grid.Row="2" 
-                              Grid.Column="2" 
-                              Model="{Binding Model4}"/>
-                <oxy:PlotView Grid.Row="3" 
-                              Grid.Column="0" 
-                              Model="{Binding Model5}"/>
-                <oxy:PlotView Grid.Row="3" 
-                              Grid.Column="1" 
-                              Model="{Binding Model6}"/>
-                <oxy:PlotView Grid.Row="3" 
-                              Grid.Column="2" 
-                              Model="{Binding Model7}"/>
-                <oxy:PlotView Grid.Row="4" 
-                              Grid.Column="0" 
-                              Model="{Binding Model8}"/>
-                <oxy:PlotView Grid.Row="4" 
-                              Grid.Column="1" 
-                              Model="{Binding Model9}"/>
-                <oxy:PlotView Grid.Row="4" 
-                              Grid.Column="2" 
-                              Model="{Binding Model10}"/>
-                <oxy:PlotView Grid.Row="5" 
-                              Grid.Column="0" 
-                              Model="{Binding Model11}"/>
-                <oxy:PlotView Grid.Row="5" 
-                              Grid.Column="1" 
-                              Model="{Binding Model12}"/>
-                <oxy:PlotView Grid.Row="5" 
-                              Grid.Column="2" 
-                              Model="{Binding Model13}"/>
-                <oxy:PlotView Grid.Row="6" 
-                              Grid.Column="0" 
-                              Model="{Binding Model14}"/>
-                <oxy:PlotView Grid.Row="6" 
-                              Grid.Column="1" 
-                              Model="{Binding Model15}"/>
-                <oxy:PlotView Grid.Row="6" 
-                              Grid.Column="2" 
-                              Model="{Binding Model16}"/>
+                              Model="{Binding OverviewPlot}"/>
+
+                <ItemsControl ItemsSource="{Binding YearPlots}" 
+                              Grid.Row="2"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="3">
+
+                    <ItemsControl.ItemsPanel>
+                    
+                    <ItemsPanelTemplate>
+                        <UniformGrid 
+                            Columns="3"
+                            Background="White"/>
+                    </ItemsPanelTemplate>
+                    
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+
+                            <oxy:PlotView 
+                                Model="{Binding Plot}" />
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                
+                </ItemsControl>
             </Grid>
         </StackPanel>
     </ScrollViewer>

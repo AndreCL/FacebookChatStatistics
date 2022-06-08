@@ -10,6 +10,6 @@ namespace FbChatClient
         public MainWindow()
         {
             InitializeComponent();
-        }        
+        }
     }
 }

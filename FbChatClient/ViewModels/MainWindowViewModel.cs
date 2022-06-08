@@ -8,102 +8,67 @@ using System.Windows.Input;
 using System.Windows;
 using FbChatClient.Functions;
 using CommunityToolkit.Mvvm.Input;
-using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using FbChatClient.Models;
 
 namespace FbChatClient.ViewModels;
 public class MainWindowViewModel
 {
-    private readonly MessageHandler mh;
+    private readonly MessageHandler messageHandler;
 
     public ICommand ScreenShotCommand { get; set; }
-
+   
+    public ObservableCollection<YearPlot> YearPlots { get; set; }
+    
     public string LogText { get; set; }
 
-    public PlotModel Model1 { get; private set; }
-    public PlotModel Model2 { get; private set; }
-    public PlotModel Model3 { get; private set; }
-    public PlotModel Model4 { get; private set; }
-    public PlotModel Model5 { get; private set; }
-    public PlotModel Model6 { get; private set; }
-    public PlotModel Model7 { get; private set; }
-    public PlotModel Model8 { get; private set; }
-    public PlotModel Model9 { get; private set; }
-    public PlotModel Model10 { get; private set; }
-    public PlotModel Model11 { get; private set; }
-    public PlotModel Model12 { get; private set; }
-    public PlotModel Model13 { get; private set; }
-    public PlotModel Model14 { get; private set; }
-    public PlotModel Model15 { get; private set; }
-    public PlotModel Model16 { get; private set; }
-
-    public Grid ContentGrid { get; private set; }
+    public PlotModel OverviewPlot { get; private set; }
 
     public MainWindowViewModel()
     {
         ScreenShotCommand = new RelayCommand<FrameworkElement>(OnScreenShotCommandAsync);
 
-        mh = new MessageHandler("C:\\Data");
+        messageHandler = new MessageHandler("C:\\Data");
+        messageHandler.Load();
 
-        mh.Load();
+        YearPlots = new ObservableCollection<YearPlot>();
 
         Load();
     }
 
     private void Load()
     {
-        LogText = $"Name: {mh.MyName} | Number of chats: {mh.NumberOfChats} | {mh.First} - {mh.Last}";
+        LogText = $"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | {messageHandler.First} - {messageHandler.Last}";
 
-        Model1 = new PlotModel();
-        GetBarSeries(Model1, 20);
+        OverviewPlot = new PlotModel();
+        GetBarSeries(OverviewPlot, 20);
 
-        Model2 = new PlotModel();
-        GetBarSeries(Model2, 2022, 10);
+        int x = 0;
+        int y = 0;
 
-        Model3 = new PlotModel();
-        GetBarSeries(Model3, 2021, 10);
+        for(int year = messageHandler.Last.Year; year >= messageHandler.First.Year; year--)
+        {
+            YearPlot yp = new YearPlot();
+            yp.Column = y;
+            yp.Row = x;
+            yp.Plot = new PlotModel();
+            GetBarSeries(yp.Plot, year, 10);
 
-        Model4 = new PlotModel();
-        GetBarSeries(Model4, 2020, 10);
+            y++;
+            if (y == 3) 
+            { 
+                y = 0;
+                x++;
+            }
 
-        Model5 = new PlotModel();
-        GetBarSeries(Model5, 2019, 10);
+            YearPlots.Add(yp);
+        }
 
-        Model6 = new PlotModel();
-        GetBarSeries(Model6, 2018, 10);
-
-        Model7 = new PlotModel();
-        GetBarSeries(Model7, 2017, 10);
-
-        Model8 = new PlotModel();
-        GetBarSeries(Model8, 2016, 10);
-
-        Model9 = new PlotModel();
-        GetBarSeries(Model9, 2015, 10);
-
-        Model10 = new PlotModel();
-        GetBarSeries(Model10, 2014, 10);
-
-        Model11 = new PlotModel();
-        GetBarSeries(Model11, 2013, 10);
-
-        Model12 = new PlotModel();
-        GetBarSeries(Model12, 2012, 10);
-
-        Model13 = new PlotModel();
-        GetBarSeries(Model13, 2011, 10);
-
-        Model14 = new PlotModel();
-        GetBarSeries(Model14, 2010, 10);
-
-        Model15 = new PlotModel();
-        GetBarSeries(Model15, 2009, 10);
-
-        Model16 = new PlotModel();
     }
 
     private void GetBarSeries(PlotModel plotModel, int number)
     {
-        var names = mh.GetTopSenders(excludeMe: true);
+        var names = messageHandler.GetTopSenders(excludeMe: true);
 
         var itemsSource = new List<BarItem>();
         var labels = new List<string>();
@@ -151,7 +116,7 @@ public class MainWindowViewModel
 
     private void GetBarSeries(PlotModel plotModel, int year, int number)
     {
-        var names = mh.GetTopSenders(year: year, excludeMe: true);
+        var names = messageHandler.GetTopSenders(year: year, excludeMe: true);
 
         var itemsSource = new List<BarItem>();
         var labels = new List<string>();
@@ -192,9 +157,5 @@ public class MainWindowViewModel
             // Success.
         }
     }
-
-
-
-
 }
 

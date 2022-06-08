@@ -47,7 +47,4 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 - Readme use instructions
 - Selectable user
-- Auto number of years
-- Format copy button
-- Make responsive
 
