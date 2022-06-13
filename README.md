@@ -45,7 +45,7 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 * Click the link and download all the files
 
-![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/10-Screenshot.png?raw=true)
+![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/11-Screenshot.png?raw=true)
 
 * Unzip all the downloaded files. I recommend using 7-zip
 
