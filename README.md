@@ -39,12 +39,22 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 * The site will show that the process is started and you will also receive an email. The process usually takes a few days for me. But I guess it depends on how much data you have.
 
-# TO BE CONTINUED
+* After some hours/days you will receive a mail from Facebook that your data is ready for download
 
+![Facebook mail](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/10-Screenshot.png?raw=true)
 
+* Click the link and download all the files
+
+![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/10-Screenshot.png?raw=true)
+
+* Unzip all the downloaded files. I recommend using 7-zip
+
+(to be continued)
 
 ## Todo:
 
 - Readme use instructions
 - Selectable user
+- Selectable location of files
+- Automatically unzip
 
