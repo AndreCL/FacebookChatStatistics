@@ -32,6 +32,9 @@ public class MessageHandler
 
         //User is the one who sent most messages
         var senders = GetTopSenders(false);
+
+        if(senders.Count == 0) return; //return if none found
+
         MyName = senders.First().Key;
 
         First = messages.Min(a => a.MessageDate());

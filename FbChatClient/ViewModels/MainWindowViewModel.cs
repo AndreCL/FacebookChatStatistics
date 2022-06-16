@@ -10,43 +10,69 @@ using FbChatClient.Functions;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using FbChatClient.Models;
+using System.ComponentModel;
 
 namespace FbChatClient.ViewModels;
-public class MainWindowViewModel
+public class MainWindowViewModel : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string name)
+    {
+        PropertyChangedEventHandler handler = PropertyChanged;
+        if (handler != null)
+        {
+            handler(this, new PropertyChangedEventArgs(name));
+        }
+    }
+
     private readonly MessageHandler messageHandler;
 
     public ICommand ScreenShotCommand { get; set; }
-   
-    public ObservableCollection<YearPlot> YearPlots { get; set; }
-    
-    public string LogText { get; set; }
+    public ICommand DirectoryCommand { get; set; }
 
-    public PlotModel OverviewPlot { get; private set; }
+    public ObservableCollection<YearPlot> YearPlots { get; set; }
+
+    private string _logText;
+
+    public string LogText
+    {
+        get { return _logText; }
+        set
+        {
+            _logText = value;
+            OnPropertyChanged("LogText");
+        }
+    }
+
+    public PlotModel OverviewPlot { get; set; }
 
     public MainWindowViewModel()
     {
         ScreenShotCommand = new RelayCommand<FrameworkElement>(OnScreenShotCommandAsync);
 
-        messageHandler = new MessageHandler("C:\\Data");
-        messageHandler.Load();
+        DirectoryCommand = new RelayCommand(OnDirectoryCommandAsync);
+
+        messageHandler = new MessageHandler("C:\\Data\\inbox");
 
         YearPlots = new ObservableCollection<YearPlot>();
-
-        Load();
+        OverviewPlot = new PlotModel();
     }
 
     private void Load()
     {
-        LogText = $"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | {messageHandler.First} - {messageHandler.Last}";
+        //Clear plots
+        YearPlots.Clear();
 
-        OverviewPlot = new PlotModel();
+        LogText = $"{messageHandler.FileGymnastics.InboxFolderLocation} | " +
+            $"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | " +
+            $"{messageHandler.First} - {messageHandler.Last}";
+                        
         GetBarSeries(OverviewPlot, 20);
 
         int x = 0;
         int y = 0;
 
-        for(int year = messageHandler.Last.Year; year >= messageHandler.First.Year; year--)
+        for (int year = messageHandler.Last.Year; year >= messageHandler.First.Year; year--)
         {
             YearPlot yp = new YearPlot();
             yp.Column = y;
@@ -55,15 +81,14 @@ public class MainWindowViewModel
             GetBarSeries(yp.Plot, year, 10);
 
             y++;
-            if (y == 3) 
-            { 
+            if (y == 3)
+            {
                 y = 0;
                 x++;
             }
 
             YearPlots.Add(yp);
         }
-
     }
 
     private void GetBarSeries(PlotModel plotModel, int number)
@@ -96,6 +121,8 @@ public class MainWindowViewModel
             Key = "Name",
             ItemsSource = labels
         });
+
+        plotModel.InvalidatePlot(true);
     }
 
     private OxyColor ColorFromValue(int value)
@@ -154,7 +181,22 @@ public class MainWindowViewModel
         var result = await Screenshot.TryScreenshotToClipboardAsync(frameworkElement);
         if (result == true)
         {
-            // Success.
+            // Success
+        }
+    }
+
+    private void OnDirectoryCommandAsync()
+    {
+        var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+        if (dialog.ShowDialog().GetValueOrDefault())
+        {
+            LogText = "Loading...";
+
+            messageHandler.FileGymnastics.InboxFolderLocation = dialog.SelectedPath;
+
+            messageHandler.Load();
+
+            Load();
         }
     }
 }

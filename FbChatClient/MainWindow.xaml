@@ -25,17 +25,24 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" 
-                           Grid.ColumnSpan="2" 
                            Background="White"
-                           Text="{Binding Path=LogText, UpdateSourceTrigger=PropertyChanged}">
+                           Text="{Binding Path=LogText, Mode=TwoWay,
+                    UpdateSourceTrigger=PropertyChanged}">
+                    Select directory
                 </TextBlock>
 
-                <Button Grid.Row="0" Grid.Column="2" 
+                <Button Grid.Row="0" Grid.Column="1" Margin="1"
+                        Command="{Binding DirectoryCommand, Mode=OneWay}"                                                       
+                        ToolTip="Select chat directory">
+                    Select directory
+                </Button>
+
+                <Button Grid.Row="0" Grid.Column="2" Margin="1"
                         Command="{Binding ScreenShotCommand, Mode=OneWay}"
                         CommandParameter="{Binding ElementName=Content}"                                                        
                         ToolTip="Copy screenshot to clipboard">

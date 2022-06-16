@@ -7,6 +7,18 @@ public class FileGymnastics
 {
     string _inboxFolderLocation;
 
+    public string InboxFolderLocation
+    {
+        get
+        {
+            return _inboxFolderLocation;
+        }
+        set 
+        { 
+            _inboxFolderLocation = value; 
+        }
+    }
+
     public FileGymnastics(string inboxFolderLocation)
     {
         _inboxFolderLocation = inboxFolderLocation;
@@ -21,7 +33,7 @@ public class FileGymnastics
         var result = CheckFolderExists(_inboxFolderLocation);
         if (result)
         {
-            result = CheckFolderExists(InboxDirectory());            
+            result = CheckFolderExists(InboxDirectory());
         }
         if (result)
         {
@@ -33,7 +45,7 @@ public class FileGymnastics
 
     private string InboxDirectory()
     {
-        return _inboxFolderLocation + "\\inbox";
+        return _inboxFolderLocation;
     }
 
     private static bool CheckFolderExists(string directory)
@@ -59,6 +71,6 @@ public class FileGymnastics
 
     public string[] GetJsonPathsFromDirectory(string directory)
     {
-        return Directory.GetFiles(directory).ToList().Where(x=> x.EndsWith(".json")).ToArray();
+        return Directory.GetFiles(directory).ToList().Where(x => x.EndsWith(".json")).ToArray();
     }
 }

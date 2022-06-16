@@ -53,15 +53,18 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 ![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/12-Screenshot.png?raw=true)
 
-* Take the contents of those 5 folders and put them in C:\data\inbox (don't worry, I am working on making this selectable)
+* Take the contents of those 5 folders and put them in one folder
 
-* Run and drive this app. You should see something like this (I sensored some personal data):
+* Run the app
+
+* Select directory
+
+* You should see something like this (old version):
 
 ![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/13-Screenshot.png?raw=true)
 
 ## Todo:
 
-- Selectable location of files
 - Selectable user
 - Automatically unzip
 
