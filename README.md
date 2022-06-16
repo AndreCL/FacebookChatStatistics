@@ -49,12 +49,19 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 * Unzip all the downloaded files. I recommend using 7-zip
 
-(to be continued)
+* Inside the messages directory you get there are 5 folders with message threads (each message thread is a folder): 
+
+![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/12-Screenshot.png?raw=true)
+
+* Take the contents of those 5 folders and put them in C:\data\inbox (don't worry, I am working on making this selectable)
+
+* Run and drive this app. You should see something like this (I sensored some personal data):
+
+![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/13-Screenshot.png?raw=true)
 
 ## Todo:
 
-- Readme use instructions
-- Selectable user
 - Selectable location of files
+- Selectable user
 - Automatically unzip
 
