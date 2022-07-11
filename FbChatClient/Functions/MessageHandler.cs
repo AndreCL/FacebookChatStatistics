@@ -11,6 +11,8 @@ public class MessageHandler
     private string _inboxFolderLocation;
     private List<Message> messages = new();
 
+    private List<JsonFile> rawFiles = new();
+
     public FileGymnastics FileGymnastics { get; set; }
     public string MyName { get; set; } = "";
     public int NumberOfChats { get; set; }
@@ -57,12 +59,20 @@ public class MessageHandler
 
                 jsonString = TextProcessing.FixFBEncodingIssues(jsonString);
 
-                JsonFile result = JsonSerializer.Deserialize<JsonFile>(jsonString);
+                var result = JsonSerializer.Deserialize<JsonFile>(jsonString);
                 if (result != null)
                 {
+                    foreach(var participant in result.Participants)
+					{
+                        if (participant.Name == "" || participant.Name == "Other user" || participant.Name == "Deleted users" || participant.Name == "Facebook User")
+                        {
+                            participant.Name = "Deleted users";
+                        }
+                    }
+
                     foreach (var message in result.Messages)
                     {
-                        if (message.SenderName == "" || message.SenderName == "Other user" || message.SenderName == "Deleted users")
+                        if (message.SenderName == "" || message.SenderName == "Other user" || message.SenderName == "Deleted users" || message.SenderName == "Facebook User")
                         {
                             message.SenderName = "Deleted users";
                         }
@@ -70,7 +80,9 @@ public class MessageHandler
                         if (!excludeMe || message.SenderName != MyName)
                             messages.Add(message);
                     }
-                }
+
+                    rawFiles.Add(result);
+                }                
             }
         }
 
@@ -118,5 +130,47 @@ public class MessageHandler
             }
         }
         return names;
+    }
+
+    public int GetNumberOfSentForName(string Name)
+	{
+        //number of chats with this participant
+        var chats = rawFiles.Where(x => x.Participants.Any(y => y.Name == Name));
+
+		if (chats.Any())
+		{
+            var messages = chats.SelectMany(x => x.Messages);
+
+			if (messages.Any())
+			{
+                var result = messages.Count(x => x.SenderName.Equals(MyName));
+
+                return result;
+			}
+		}
+
+        return 0;
+
+	}
+
+    public int GetNumberOfSentForName(string Name, int year)
+    {
+        //number of chats with this participant
+        var chats = rawFiles.Where(x => x.Participants.Any(y => y.Name == Name));
+
+        if (chats.Any())
+        {
+            var messages = chats.SelectMany(x => x.Messages);
+
+            if (messages.Any())
+            {
+                var result = messages.Count(x => x.SenderName.Equals(MyName) && x.MessageDate().Year == year);
+
+                return result;
+            }
+        }
+
+        return 0;
+
     }
 }

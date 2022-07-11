@@ -67,7 +67,6 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 - Selectable user
 - Automatically unzip
-- Show sent messages
 - Check selected user code
 - Include in readme that it requires to install .net 6.0
 

@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using FbChatClient.Models;
 using System.ComponentModel;
+using OxyPlot.Legends;
 
 namespace FbChatClient.ViewModels;
 public class MainWindowViewModel : INotifyPropertyChanged
@@ -78,6 +79,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             yp.Column = y;
             yp.Row = x;
             yp.Plot = new PlotModel();
+            
             GetBarSeries(yp.Plot, year, 10);
 
             y++;
@@ -95,58 +97,73 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         var names = messageHandler.GetTopSenders(excludeMe: true);
 
-        var itemsSource = new List<BarItem>();
-        var labels = new List<string>();
+        var itemsSource1 = new List<BarItem>();
+        var labels1 = new List<string>();
+
+        var itemsSource2 = new List<BarItem>();
 
         var filterednames = names.OrderByDescending(x => x.Value).Take(Math.Min(number, names.Count));
 
         plotModel.Title = "All time";
 
+        plotModel.Legends.Add(new Legend()
+        {
+            LegendPlacement = LegendPlacement.Inside,
+            LegendPosition = LegendPosition.BottomCenter,
+            LegendOrientation = LegendOrientation.Horizontal,
+            LegendBorderThickness = 0
+        });
+
         foreach (var name in filterednames)
         {
-            itemsSource.Insert(0, new BarItem { Value = name.Value, Color = ColorFromValue(name.Value) });
-            labels.Insert(0, name.Key);
+            //received
+            itemsSource1.Insert(0, new BarItem { Value = name.Value });
+            labels1.Insert(0, name.Key);
+
+            //sent
+            var sent = messageHandler.GetNumberOfSentForName(name.Key);
+            itemsSource2.Insert(0, new BarItem { Value = sent});
         }
 
-        var barSeries = new BarSeries()
+        var barSeries1 = new BarSeries()
         {
-            ItemsSource = itemsSource
+            Title = "Received",
+            ItemsSource = itemsSource1,
+            StrokeColor = OxyColors.Black, 
+            StrokeThickness = 1,
+            
         };
 
-        plotModel.Series.Add(barSeries);
+        var barSeries2 = new BarSeries()
+        {
+            Title = "Sent",
+            ItemsSource = itemsSource2,
+            StrokeColor = OxyColors.Black,
+            StrokeThickness = 1,
+            FillColor = OxyColors.Blue
+        };
+
+        plotModel.Series.Add(barSeries2);
+        plotModel.Series.Add(barSeries1);
 
         plotModel.Axes.Add(new CategoryAxis
         {
             Position = AxisPosition.Left,
             Key = "Name",
-            ItemsSource = labels
-        });
+            ItemsSource = labels1
+        });        
 
         plotModel.InvalidatePlot(true);
-    }
-
-    private OxyColor ColorFromValue(int value)
-    {
-        if (value < 1000)
-        {
-            return OxyColors.Red;
-        }
-        if (value < 10000)
-        {
-            return OxyColors.Orange;
-        }
-        else
-        {
-            return OxyColors.Green;
-        }
     }
 
     private void GetBarSeries(PlotModel plotModel, int year, int number)
     {
         var names = messageHandler.GetTopSenders(year: year, excludeMe: true);
 
-        var itemsSource = new List<BarItem>();
-        var labels = new List<string>();
+        var itemsSource1 = new List<BarItem>();
+        var labels1 = new List<string>();
+
+        var itemsSource2 = new List<BarItem>();
 
         var filterednames = names.OrderByDescending(x => x.Value).Take(Math.Min(number, names.Count));
 
@@ -154,25 +171,54 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             plotModel.Title = $"{year}";
 
+            plotModel.Legends.Add(new Legend()
+            {
+                LegendPlacement = LegendPlacement.Inside,
+                LegendPosition = LegendPosition.BottomCenter,
+                LegendOrientation = LegendOrientation.Horizontal,
+                LegendBorderThickness = 0
+            });
+
             foreach (var name in filterednames)
             {
-                itemsSource.Insert(0, new BarItem { Value = name.Value, Color = ColorFromValue(name.Value) });
-                labels.Insert(0, name.Key);
+                //received
+                itemsSource1.Insert(0, new BarItem { Value = name.Value });
+                labels1.Insert(0, name.Key);
+
+                //sent
+                var sent = messageHandler.GetNumberOfSentForName(name.Key, year);
+                itemsSource2.Insert(0, new BarItem { Value = sent });
             }
 
-            var barSeries = new BarSeries()
+            var barSeries1 = new BarSeries()
             {
-                ItemsSource = itemsSource
+                Title = "Received",
+                ItemsSource = itemsSource1,
+                StrokeColor = OxyColors.Black,
+                StrokeThickness = 1
             };
 
-            plotModel.Series.Add(barSeries);
+            var barSeries2 = new BarSeries()
+            {
+                Title = "Sent",
+                ItemsSource = itemsSource2,
+                StrokeColor = OxyColors.Black,
+                StrokeThickness = 1,
+                FillColor = OxyColors.Blue
+            };
+
+            plotModel.Series.Add(barSeries2);
+            plotModel.Series.Add(barSeries1);
+
 
             plotModel.Axes.Add(new CategoryAxis
             {
                 Position = AxisPosition.Left,
                 Key = "Name",
-                ItemsSource = labels
+                ItemsSource = labels1
             });
+
+            plotModel.InvalidatePlot(true);
         }
     }
 
