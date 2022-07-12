@@ -37,7 +37,7 @@ public class MessageHandler
 
         if(senders.Count == 0) return; //return if none found
 
-        MyName = senders.First().Key;
+        MyName = senders.OrderByDescending(x => x.Value).First().Key;
 
         First = messages.Min(a => a.MessageDate());
         Last = messages.Max(a => a.MessageDate());
