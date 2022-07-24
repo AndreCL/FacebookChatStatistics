@@ -62,19 +62,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
             $"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | " +
             $"{messageHandler.First} - {messageHandler.Last}";
                         
-        PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, messageHandler);
+        PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, year:2022, messageHandler);
 
         int x = 0;
         int y = 0;
 
-        for (int year = messageHandler.Last.Year; year >= messageHandler.First.Year; year--)
+        for (int month = 1; month <= messageHandler.Last.Month; month++)
         {
             YearPlot yp = new YearPlot();
             yp.Column = y;
             yp.Row = x;
             yp.Plot = new PlotModel();
 
-            PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: year, messageHandler);
+            PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: 2022, month: month, messageHandler);
 
             y++;
             if (y == 3)
