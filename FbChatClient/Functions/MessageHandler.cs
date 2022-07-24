@@ -132,6 +132,29 @@ public class MessageHandler
         return names;
     }
 
+    public Dictionary<string, int> GetTopSenders(int year, int month, bool excludeMe = true)
+    {
+        Dictionary<string, int> names = new Dictionary<string, int>();
+        foreach (var message in messages)
+        {
+            if (!excludeMe || message.SenderName != MyName)
+            {
+                if (message.MessageDate().Year == year && message.MessageDate().Month == month)
+                {
+                    if (names.ContainsKey(message.SenderName))
+                    {
+                        names[message.SenderName] += 1;
+                    }
+                    else
+                    {
+                        names.Add(message.SenderName, 1);
+                    }
+                }
+            }
+        }
+        return names;
+    }
+
     public int GetNumberOfSentForName(string Name)
 	{
         //number of chats with this participant
@@ -171,6 +194,5 @@ public class MessageHandler
         }
 
         return 0;
-
     }
 }
