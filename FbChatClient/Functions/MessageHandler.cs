@@ -195,4 +195,25 @@ public class MessageHandler
 
         return 0;
     }
+
+    public int GetNumberOfSentForName(string Name, int year, int month)
+    {
+        //number of chats with this participant
+        var chats = rawFiles.Where(x => x.Participants.Any(y => y.Name == Name));
+
+        if (chats.Any())
+        {
+            var messages = chats.SelectMany(x => x.Messages);
+
+            if (messages.Any())
+            {
+                var result = messages.Count(x => x.SenderName.Equals(MyName) && x.MessageDate().Year == year &&
+                x.MessageDate().Month == month);
+
+                return result;
+            }
+        }
+
+        return 0;
+    }
 }

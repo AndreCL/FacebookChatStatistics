@@ -170,7 +170,7 @@ namespace FbChatClient.Functions
                     labels1.Insert(0, name.Key);
 
                     //sent
-                    var sent = messageHandler.GetNumberOfSentForName(name.Key, year);
+                    var sent = messageHandler.GetNumberOfSentForName(name.Key, year: year, month: month);
                     itemsSource2.Insert(0, new BarItem { Value = sent });
                 }
 
