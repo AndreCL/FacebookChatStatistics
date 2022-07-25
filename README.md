@@ -24,7 +24,10 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 ![Your Facebook Information](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/04-Screenshot.png?raw=true)
 
 * Click on "View" on "Download your information"
-* In "Request a download", set Format to JSON, Media quality to "Low" and Date Range to "All time"
+* In "Request a download"
+* Set Format to JSON
+* Media quality to "Low". I wish there was an option not to download media, which we don't use.
+* Date Range to "All time". If you just wish to check for the last year, just download for the last year.
 * In select information to downlad, click "Deselect all"
 
 ![Request a download](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/05-Screenshot.png?raw=true)
@@ -59,14 +62,13 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 * Select directory
 
-* You should see something like this (old version):
+* You should see something like this:
 
 ![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/13-Screenshot.png?raw=true)
 
 ## Todo:
 
-- Selectable user
-- Automatically unzip
-- Check selected user code
+- Automatically unzip & more complex find all jsons in all subdirectories
 - Include in readme that it requires to install .net 6.0
+- Don't lock UI on loading
 

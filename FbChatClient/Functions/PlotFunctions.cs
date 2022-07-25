@@ -4,6 +4,7 @@ using OxyPlot.Legends;
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace FbChatClient.Functions
@@ -152,7 +153,7 @@ namespace FbChatClient.Functions
 
             if (filterednames.Count() > 0)
             {
-                plotModel.Title = $"{year}";
+                plotModel.Title = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month)}";
 
                 plotModel.Legends.Add(new Legend()
                 {
@@ -169,7 +170,7 @@ namespace FbChatClient.Functions
                     labels1.Insert(0, name.Key);
 
                     //sent
-                    var sent = messageHandler.GetNumberOfSentForName(name.Key, year);
+                    var sent = messageHandler.GetNumberOfSentForName(name.Key, year: year, month: month);
                     itemsSource2.Insert(0, new BarItem { Value = sent });
                 }
 

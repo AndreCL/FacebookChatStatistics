@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FbChatClient.ViewModels"
         mc:Ignorable="d"
         xmlns:oxy="http://oxyplot.org/wpf" 
-        Title="MainWindow" Height="600" Width="1000">
+        Title="Facebook Chats" Height="600" Width="1000">
 
     <Window.DataContext>
         <local:MainWindowViewModel/>
@@ -25,6 +25,7 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -49,15 +50,21 @@
                     Copy to clipboard
                 </Button>
 
+                <Button Grid.Row="0" Grid.Column="3" Margin="1"
+                        Command="{Binding ThisYearCommand, Mode=TwoWay}"                                                      
+                        ToolTip="Switch between this year and all time">
+                    This year / All time
+                </Button>
+
                 <oxy:PlotView Grid.Row="1" 
                               Grid.Column="0" 
-                              Grid.ColumnSpan="3" 
+                              Grid.ColumnSpan="4" 
                               Model="{Binding OverviewPlot}"/>
 
                 <ItemsControl ItemsSource="{Binding YearPlots}" 
                               Grid.Row="2"
                               Grid.Column="0"
-                              Grid.ColumnSpan="3">
+                              Grid.ColumnSpan="4">
 
                     <ItemsControl.ItemsPanel>
                     

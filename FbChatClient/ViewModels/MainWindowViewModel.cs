@@ -10,105 +10,153 @@ using System.ComponentModel;
 namespace FbChatClient.ViewModels;
 public class MainWindowViewModel : INotifyPropertyChanged
 {
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged(string name)
-    {
-        PropertyChangedEventHandler handler = PropertyChanged;
-        if (handler != null)
-        {
-            handler(this, new PropertyChangedEventArgs(name));
-        }
-    }
+	public event PropertyChangedEventHandler PropertyChanged;
 
-    private readonly MessageHandler messageHandler;
+	public bool ThisYear { get; set; }
 
-    public ICommand ScreenShotCommand { get; set; }
-    public ICommand DirectoryCommand { get; set; }
+	protected void OnPropertyChanged(string name)
+	{
+		PropertyChangedEventHandler handler = PropertyChanged;
+		if (handler != null)
+		{
+			handler(this, new PropertyChangedEventArgs(name));
+		}
+	}
 
-    public ObservableCollection<YearPlot> YearPlots { get; set; }
+	private readonly MessageHandler messageHandler;
 
-    private string _logText;
+	public ICommand ScreenShotCommand { get; set; }
+	public ICommand DirectoryCommand { get; set; }
+	public ICommand ThisYearCommand { get; set; }
 
-    public string LogText
-    {
-        get { return _logText; }
-        set
-        {
-            _logText = value;
-            OnPropertyChanged("LogText");
-        }
-    }
+	public ObservableCollection<YearPlot> YearPlots { get; set; }
 
-    public PlotModel OverviewPlot { get; set; }
+	private string _logText;
 
-    public MainWindowViewModel()
-    {
-        ScreenShotCommand = new RelayCommand<FrameworkElement>(OnScreenShotCommandAsync);
+	public string LogText
+	{
+		get { return _logText; }
+		set
+		{
+			_logText = value;
+			OnPropertyChanged("LogText");
+		}
+	}
 
-        DirectoryCommand = new RelayCommand(OnDirectoryCommandAsync);
+	public PlotModel OverviewPlot { get; set; }
 
-        messageHandler = new MessageHandler("C:\\Data\\inbox");
+	public MainWindowViewModel()
+	{
+		ScreenShotCommand = new RelayCommand<FrameworkElement>(OnScreenShotCommandAsync);
 
-        YearPlots = new ObservableCollection<YearPlot>();
-        OverviewPlot = new PlotModel();
-    }
+		DirectoryCommand = new RelayCommand(OnDirectoryCommandAsync);
 
-    private void Load()
-    {
-        //Clear plots
-        YearPlots.Clear();
+		ThisYearCommand = new RelayCommand(OnThisYearCommandAsync);
 
-        LogText = $"{messageHandler.FileGymnastics.InboxFolderLocation} | " +
-            $"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | " +
-            $"{messageHandler.First} - {messageHandler.Last}";
-                        
-        PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, messageHandler);
+		messageHandler = new MessageHandler("C:\\Data\\inbox");
 
-        int x = 0;
-        int y = 0;
+		YearPlots = new ObservableCollection<YearPlot>();
+		OverviewPlot = new PlotModel();
+	}
 
-        for (int year = messageHandler.Last.Year; year >= messageHandler.First.Year; year--)
-        {
-            YearPlot yp = new YearPlot();
-            yp.Column = y;
-            yp.Row = x;
-            yp.Plot = new PlotModel();
+	private void Load()
+	{
+		//Clear plots
+		YearPlots.Clear();
+		OverviewPlot.InvalidatePlot(true);
+		OverviewPlot.Series.Clear();
 
-            PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: year, messageHandler);
+		LogText = $"{messageHandler.FileGymnastics.InboxFolderLocation} | " +
+			$"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | " +
+			$"{messageHandler.First} - {messageHandler.Last}";
 
-            y++;
-            if (y == 3)
-            {
-                y = 0;
-                x++;
-            }
+		if (ThisYear)
+		{
+			PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, year: messageHandler.Last.Year, messageHandler);
 
-            YearPlots.Add(yp);
-        }
-    }  
+			int x = 0;
+			int y = 0;
 
-    private async void OnScreenShotCommandAsync(FrameworkElement frameworkElement)
-    {
-        var result = await Screenshot.TryScreenshotToClipboardAsync(frameworkElement);
-        if (result == true)
-        {
-            // Success
-        }
-    }
+			for (int month = 1; month <= messageHandler.Last.Month; month++)
+			{
+				YearPlot yp = new YearPlot();
+				yp.Column = y;
+				yp.Row = x;
+				yp.Plot = new PlotModel();
 
-    private void OnDirectoryCommandAsync()
-    {
-        var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
-        if (dialog.ShowDialog().GetValueOrDefault())
-        {
-            LogText = "Loading...";
+				PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: messageHandler.Last.Year, month: month, messageHandler);
 
-            messageHandler.FileGymnastics.InboxFolderLocation = dialog.SelectedPath;
+				y++;
+				if (y == 3)
+				{
+					y = 0;
+					x++;
+				}
 
-            messageHandler.Load();
+				YearPlots.Add(yp);
+			}
+		}
+		else
+		{
+			PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, messageHandler);
 
-            Load();
-        }
-    }
+			int x = 0;
+			int y = 0;
+
+			for (int year = messageHandler.Last.Year; year >= messageHandler.First.Year; year--)
+			{
+				YearPlot yp = new YearPlot();
+				yp.Column = y;
+				yp.Row = x;
+				yp.Plot = new PlotModel();
+
+				PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: year, messageHandler);
+
+				y++;
+				if (y == 3)
+				{
+					y = 0;
+					x++;
+				}
+
+				YearPlots.Add(yp);
+			}
+		}
+
+
+	}
+
+	private async void OnScreenShotCommandAsync(FrameworkElement frameworkElement)
+	{
+		var result = await Screenshot.TryScreenshotToClipboardAsync(frameworkElement);
+		if (result == true)
+		{
+			// Success
+		}
+	}
+
+	private void OnDirectoryCommandAsync()
+	{
+		var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+		if (dialog.ShowDialog().GetValueOrDefault())
+		{
+			LogText = "Loading...";
+
+			messageHandler.FileGymnastics.InboxFolderLocation = dialog.SelectedPath;
+
+			messageHandler.Load();
+
+			Load();
+		}
+	}
+
+	private void OnThisYearCommandAsync()
+	{
+		LogText = "Loading...";
+
+		ThisYear = !ThisYear;
+
+		Load();
+	}
 }
 
