@@ -65,6 +65,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		YearPlots.Clear();
 		OverviewPlot.InvalidatePlot(true);
 		OverviewPlot.Series.Clear();
+		OverviewPlot.Axes.Clear();
 
 		LogText = $"{messageHandler.FileGymnastics.InboxFolderLocation} | " +
 			$"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | " +
