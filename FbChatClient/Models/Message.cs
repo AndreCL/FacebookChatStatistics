@@ -13,6 +13,9 @@ public class Message
     [JsonPropertyName("content")]
     public string Content { get; set; } = "";
 
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = "";
+
     public DateTime MessageDate()
     {
         // Unix timestamp is seconds past epoch
@@ -20,5 +23,15 @@ public class Message
         dateTime = dateTime.AddMilliseconds(TimeStampMs).ToLocalTime();
         return dateTime;
     }
+
+	#region Call messages
+	[JsonPropertyName("call_duration")]
+    public int CallDuration { get; set; }
+
+    public TimeSpan Duration()
+    {
+        return TimeSpan.FromSeconds(CallDuration);
+    }
+	#endregion
 }
 

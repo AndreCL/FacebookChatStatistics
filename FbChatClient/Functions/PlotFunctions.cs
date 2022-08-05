@@ -205,5 +205,54 @@ namespace FbChatClient.Functions
                 plotModel.InvalidatePlot(true);
             }
         }
+
+        internal static void GetCallBarSeries(PlotModel plotModel, int amount, MessageHandler messageHandler)
+        {
+            var names = messageHandler.GetTopCallers();
+
+            var itemsSource = new List<BarItem>();
+            var labels1 = new List<string>();
+
+            var filterednames = names.OrderByDescending(x => x.Value).Take(Math.Min(amount, names.Count));
+
+            plotModel.Title = "All time";
+
+            plotModel.Legends.Add(new Legend()
+            {
+                LegendPlacement = LegendPlacement.Inside,
+                LegendPosition = LegendPosition.BottomCenter,
+                LegendOrientation = LegendOrientation.Horizontal,
+                LegendBorderThickness = 0
+            });
+
+            foreach (var name in filterednames)
+            {
+                //received
+                itemsSource.Insert(0, new BarItem { Value = name.Value });
+                labels1.Insert(0, name.Key);
+
+                //sent
+                var sent = messageHandler.GetNumberOfSentForName(name.Key);
+            }
+
+            var barSeries1 = new BarSeries()
+            {
+                Title = "Minutes",
+                StrokeColor = OxyColors.Black,
+                StrokeThickness = 1,
+
+            };
+
+            plotModel.Series.Add(barSeries1);
+
+            plotModel.Axes.Add(new CategoryAxis
+            {
+                Position = AxisPosition.Left,
+                Key = "Name",
+                ItemsSource = labels1
+            });
+
+            plotModel.InvalidatePlot(true);
+        }
     }
 }

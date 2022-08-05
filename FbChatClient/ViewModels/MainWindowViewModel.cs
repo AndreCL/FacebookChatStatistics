@@ -12,8 +12,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 {
 	public event PropertyChangedEventHandler PropertyChanged;
 
-	public bool ThisYear { get; set; }
-
 	protected void OnPropertyChanged(string name)
 	{
 		PropertyChangedEventHandler handler = PropertyChanged;
@@ -23,13 +21,26 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		}
 	}
 
-	private readonly MessageHandler messageHandler;
+	private MessageHandler messageHandler;
 
 	public ICommand ScreenShotCommand { get; set; }
 	public ICommand DirectoryCommand { get; set; }
-	public ICommand ThisYearCommand { get; set; }
 
 	public ObservableCollection<YearPlot> YearPlots { get; set; }
+
+	private int _dropdownValue = 0;
+
+	public int DropdownValue
+	{
+		get { return _dropdownValue; }
+		set
+		{
+			_dropdownValue = value;
+			OnPropertyChanged("DropdownValue");
+			Load();
+		}
+	}
+	
 
 	private string _logText;
 
@@ -51,53 +62,29 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 		DirectoryCommand = new RelayCommand(OnDirectoryCommandAsync);
 
-		ThisYearCommand = new RelayCommand(OnThisYearCommandAsync);
-
 		messageHandler = new MessageHandler("C:\\Data\\inbox");
 
 		YearPlots = new ObservableCollection<YearPlot>();
 		OverviewPlot = new PlotModel();
 	}
 
-	private void Load()
+	private void ClearPlots()
 	{
-		//Clear plots
 		YearPlots.Clear();
 		OverviewPlot.InvalidatePlot(true);
 		OverviewPlot.Series.Clear();
 		OverviewPlot.Axes.Clear();
+	}
+
+	private void Load()
+	{
+		ClearPlots();
 
 		LogText = $"{messageHandler.FileGymnastics.InboxFolderLocation} | " +
 			$"Name: {messageHandler.MyName} | Number of chats: {messageHandler.NumberOfChats} | " +
 			$"{messageHandler.First} - {messageHandler.Last}";
-
-		if (ThisYear)
-		{
-			PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, year: messageHandler.Last.Year, messageHandler);
-
-			int x = 0;
-			int y = 0;
-
-			for (int month = 1; month <= messageHandler.Last.Month; month++)
-			{
-				YearPlot yp = new YearPlot();
-				yp.Column = y;
-				yp.Row = x;
-				yp.Plot = new PlotModel();
-
-				PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: messageHandler.Last.Year, month: month, messageHandler);
-
-				y++;
-				if (y == 3)
-				{
-					y = 0;
-					x++;
-				}
-
-				YearPlots.Add(yp);
-			}
-		}
-		else
+		
+		if(DropdownValue == 0) //all time
 		{
 			PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, messageHandler);
 
@@ -123,8 +110,36 @@ public class MainWindowViewModel : INotifyPropertyChanged
 				YearPlots.Add(yp);
 			}
 		}
+		else if (DropdownValue == 1) //this year
+		{
+			PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, year: messageHandler.Last.Year, messageHandler);
 
+			int x = 0;
+			int y = 0;
 
+			for (int month = 1; month <= messageHandler.Last.Month; month++)
+			{
+				YearPlot yp = new YearPlot();
+				yp.Column = y;
+				yp.Row = x;
+				yp.Plot = new PlotModel();
+
+				PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: messageHandler.Last.Year, month: month, messageHandler);
+
+				y++;
+				if (y == 3)
+				{
+					y = 0;
+					x++;
+				}
+
+				YearPlots.Add(yp);
+			}
+		}
+		else if(DropdownValue == 2) //calls
+		{
+			PlotFunctions.GetCallBarSeries(OverviewPlot, amount: 20,  messageHandler);
+		}
 	}
 
 	private async void OnScreenShotCommandAsync(FrameworkElement frameworkElement)
@@ -143,21 +158,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		{
 			LogText = "Loading...";
 
-			messageHandler.FileGymnastics.InboxFolderLocation = dialog.SelectedPath;
+			messageHandler = new MessageHandler(dialog.SelectedPath);
 
 			messageHandler.Load();
 
 			Load();
 		}
-	}
-
-	private void OnThisYearCommandAsync()
-	{
-		LogText = "Loading...";
-
-		ThisYear = !ThisYear;
-
-		Load();
 	}
 }
 

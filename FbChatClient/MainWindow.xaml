@@ -49,12 +49,16 @@
                         ToolTip="Copy screenshot to clipboard">
                     Copy to clipboard
                 </Button>
+                
+                <ComboBox Grid.Row="0" Grid.Column="3"
+                    ItemsSource="{Binding Path=DropdownValues}"
+                  SelectedIndex="{Binding Path=DropdownValue}" >
 
-                <Button Grid.Row="0" Grid.Column="3" Margin="1"
-                        Command="{Binding ThisYearCommand, Mode=TwoWay}"                                                      
-                        ToolTip="Switch between this year and all time">
-                    This year / All time
-                </Button>
+                    <ComboBoxItem IsSelected="True">All time</ComboBoxItem>
+                    <ComboBoxItem>This year</ComboBoxItem>
+                    <ComboBoxItem>Calls</ComboBoxItem>
+
+                </ComboBox>
 
                 <oxy:PlotView Grid.Row="1" 
                               Grid.Column="0" 
