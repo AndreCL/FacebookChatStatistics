@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace FbChatClient.Functions.PlotFunctions;
-internal static class CallPlotFunctions
+internal class CallPlotFunctions : BasePlotFunctions
 {
 	internal static void GetCallBarSeries(PlotModel plotModel, int amount, MessageHandler messageHandler)
 	{
@@ -20,13 +20,7 @@ internal static class CallPlotFunctions
 
 		plotModel.Title = "All time";
 
-		plotModel.Legends.Add(new Legend()
-		{
-			LegendPlacement = LegendPlacement.Inside,
-			LegendPosition = LegendPosition.BottomCenter,
-			LegendOrientation = LegendOrientation.Horizontal,
-			LegendBorderThickness = 0
-		});
+		FormatLegend(plotModel);
 
 		foreach (var name in filterednames)
 		{
@@ -49,9 +43,10 @@ internal static class CallPlotFunctions
 		{
 			Position = AxisPosition.Left,
 			Key = "Name",
-			ItemsSource = labels,
-			IsZoomEnabled = false
+			ItemsSource = labels
 		});
+
+		DeactivateZoom(plotModel);
 
 		plotModel.InvalidatePlot(true);
 	}
