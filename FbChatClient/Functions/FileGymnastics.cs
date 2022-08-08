@@ -25,7 +25,7 @@ public class FileGymnastics
     }
 
     /// <summary>
-    /// Check that directory exists and contains inbox directory
+    /// Check that directory exists
     /// </summary>
     /// <returns>Number of chats found</returns>
     public int GeneralCheck()

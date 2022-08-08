@@ -13,8 +13,11 @@ public class Message
     [JsonPropertyName("content")]
     public string Content { get; set; } = "";
 
+    /// <summary>
+    /// Generic, Call, Unsubscribe, SUbscribe and Share
+    /// </summary>
     [JsonPropertyName("type")]
-    public string Type { get; set; } = ""; //Generic, Call, Unsubscribe, SUbscribe and Share
+    public string Type { get; set; } = ""; 
 
     public DateTime MessageDate()
     {
@@ -39,4 +42,3 @@ public class Message
     public User[] Users { get; set; } = System.Array.Empty<User>();
     #endregion
 }
-

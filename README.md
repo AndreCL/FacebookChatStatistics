@@ -62,12 +62,14 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 
 * Select directory
 
-* You should see something like this:
+* You should see something like this (old version):
 
 ![Download data](https://github.com/AndreCL/FacebookChatStatistics/blob/master/Screenshots/13-Screenshot.png?raw=true)
 
 ## Todo:
 
+- Implement when user joined (subscribed) later or left (unsubscribed)
+- Implement call tab
 - Automatically unzip & more complex find all jsons in all subdirectories
 - Include in readme that it requires to install .net 6.0
 - Don't lock UI on loading

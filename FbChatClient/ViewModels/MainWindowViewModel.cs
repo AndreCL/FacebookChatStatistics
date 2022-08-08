@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using FbChatClient.Models;
 using System.ComponentModel;
+using FbChatClient.Functions.PlotFunctions;
 
 namespace FbChatClient.ViewModels;
 public class MainWindowViewModel : INotifyPropertyChanged
@@ -86,7 +87,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		
 		if(DropdownValue == 0) //all time
 		{
-			PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, messageHandler);
+			MessagePlotFunctions.GetMessageBarSeries(OverviewPlot, amount: 20, messageHandler);
 
 			int x = 0;
 			int y = 0;
@@ -98,7 +99,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 				yp.Row = x;
 				yp.Plot = new PlotModel();
 
-				PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: year, messageHandler);
+				MessagePlotFunctions.GetMessageBarSeries(yp.Plot, amount: 10, year: year, messageHandler);
 
 				y++;
 				if (y == 3)
@@ -112,7 +113,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		}
 		else if (DropdownValue == 1) //this year
 		{
-			PlotFunctions.GetBarSeries(OverviewPlot, amount: 20, year: messageHandler.Last.Year, messageHandler);
+			MessagePlotFunctions.GetMessageBarSeries(OverviewPlot, amount: 20, year: messageHandler.Last.Year, messageHandler);
 
 			int x = 0;
 			int y = 0;
@@ -124,7 +125,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 				yp.Row = x;
 				yp.Plot = new PlotModel();
 
-				PlotFunctions.GetBarSeries(yp.Plot, amount: 10, year: messageHandler.Last.Year, month: month, messageHandler);
+				MessagePlotFunctions.GetMessageBarSeries(yp.Plot, amount: 10, year: messageHandler.Last.Year, month: month, messageHandler);
 
 				y++;
 				if (y == 3)
@@ -138,7 +139,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		}
 		else if(DropdownValue == 2) //calls
 		{
-			PlotFunctions.GetCallBarSeries(OverviewPlot, amount: 20,  messageHandler);
+			CallPlotFunctions.GetCallBarSeries(OverviewPlot, amount: 20,  messageHandler);
 		}
 	}
 

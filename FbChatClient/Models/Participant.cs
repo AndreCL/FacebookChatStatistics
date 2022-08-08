@@ -1,10 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FbChatClient.Models
+namespace FbChatClient.Models;
+public class Participant
 {
-	internal class Participant
-	{
-		[JsonPropertyName("name")]
-		public string Name { get; set; } = "";
-	}
+	[JsonPropertyName("name")]
+	public string Name { get; set; } = "";
 }
