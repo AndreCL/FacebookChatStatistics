@@ -67,15 +67,10 @@ internal static class MessagePlotFunctions
 		{
 			Position = AxisPosition.Left,
 			Key = "Name",
-			ItemsSource = labels1,
-			IsZoomEnabled = false,
-			IsPanEnabled = false
+			ItemsSource = labels1
 		});
 
-		LinearAxis xAxis = new LinearAxis() { Position = AxisPosition.Bottom, MinimumPadding = 0 };
-		xAxis.IsZoomEnabled = false;
-		xAxis.IsPanEnabled = false;
-		plotModel.Axes.Add(xAxis);
+		DeactivateZoom(plotModel);
 
 		plotModel.InvalidatePlot(true);
 	}
@@ -138,15 +133,10 @@ internal static class MessagePlotFunctions
 			{
 				Position = AxisPosition.Left,
 				Key = "Name",
-				ItemsSource = labels1,
-				IsZoomEnabled = false,
-				IsPanEnabled = false
+				ItemsSource = labels1
 			});
 
-			LinearAxis xAxis = new LinearAxis() { Position = AxisPosition.Bottom, MinimumPadding = 0 };
-			xAxis.IsZoomEnabled = false;
-			xAxis.IsPanEnabled = false;
-			plotModel.Axes.Add(xAxis);
+			DeactivateZoom(plotModel);
 
 			plotModel.InvalidatePlot(true);
 		}
@@ -211,17 +201,23 @@ internal static class MessagePlotFunctions
 			{
 				Position = AxisPosition.Left,
 				Key = "Name",
-				ItemsSource = labels1,
-				IsZoomEnabled = false,
-				IsPanEnabled = false
+				ItemsSource = labels1
 			});
 
-			LinearAxis xAxis = new LinearAxis() { Position = AxisPosition.Bottom, MinimumPadding = 0 };
-			xAxis.IsZoomEnabled = false;
-			xAxis.IsPanEnabled = false;
-			plotModel.Axes.Add(xAxis);
+			DeactivateZoom(plotModel);
 
 			plotModel.InvalidatePlot(true);
 		}
+	}
+
+	private static void DeactivateZoom(PlotModel plotModel)
+	{
+		plotModel.Axes[0].IsZoomEnabled = false;
+		plotModel.Axes[0].IsPanEnabled = false;
+
+		LinearAxis xAxis = new LinearAxis() { Position = AxisPosition.Bottom, MinimumPadding = 0 };
+		xAxis.IsZoomEnabled = false;
+		xAxis.IsPanEnabled = false;
+		plotModel.Axes.Add(xAxis);
 	}
 }

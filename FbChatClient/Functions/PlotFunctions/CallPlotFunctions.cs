@@ -30,7 +30,6 @@ internal static class CallPlotFunctions
 
 		foreach (var name in filterednames)
 		{
-			//received
 			itemsSource.Insert(0, new BarItem { Value = name.Value });
 			labels.Insert(0, name.Key);
 		}
@@ -39,6 +38,7 @@ internal static class CallPlotFunctions
 		{
 			Title = "Minutes",
 			StrokeColor = OxyColors.Black,
+			ItemsSource = itemsSource,
 			StrokeThickness = 1,
 
 		};
