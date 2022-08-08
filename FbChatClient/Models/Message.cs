@@ -14,7 +14,7 @@ public class Message
     public string Content { get; set; } = "";
 
     [JsonPropertyName("type")]
-    public string Type { get; set; } = "";
+    public string Type { get; set; } = ""; //Generic, Call, Unsubscribe, SUbscribe and Share
 
     public DateTime MessageDate()
     {
@@ -32,6 +32,11 @@ public class Message
     {
         return TimeSpan.FromSeconds(CallDuration);
     }
-	#endregion
+    #endregion
+
+    #region Unsubscribe & Subscribe
+    [JsonPropertyName("participants")]
+    public User[] Users { get; set; } = System.Array.Empty<User>();
+    #endregion
 }
 
