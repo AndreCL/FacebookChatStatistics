@@ -13,8 +13,6 @@ public class MessageHandler
 
 	private List<JsonFile> rawFiles = new();
 
-	private List<Message> callMessages = new();
-
 	public FileGymnastics FileGymnastics { get; set; }
 	public string MyName { get; set; } = "";
 	public int NumberOfChats { get; set; }
@@ -50,7 +48,6 @@ public class MessageHandler
 		var directories = FileGymnastics.ChatDirectories();
 
 		messages = new List<Message>();
-		callMessages = new List<Message>();
 
 		foreach (var directory in directories)
 		{
@@ -81,11 +78,8 @@ public class MessageHandler
 								messages.Add(message);
 						}
 
-						//todo: Not working. Needs more logic
-						if (message.Type == "Call")
-						{
-							callMessages.Add(message);
-						}
+						//todo: Move process calls to here?
+
 					}
 
 					rawFiles.Add(result);
@@ -118,60 +112,41 @@ public class MessageHandler
 
 	public Dictionary<string, int> GetTopCallers()
 	{
+		var containsmessages = rawFiles.Where(y => y.Messages.Any(x => x.Type == "Call"));
+
 		Dictionary<string, int> names = new Dictionary<string, int>();
-		foreach (var message in callMessages)
+
+		if (containsmessages.Any())
 		{
-			if (names.ContainsKey(message.SenderName))
+			foreach (var file in containsmessages)
 			{
-				names[message.SenderName] += message.CallDuration;
-			}
-			else
-			{
-				names.Add(message.SenderName, message.CallDuration);
+				foreach(var message in file.Messages)
+				{
+					if (message.Type == "Call")
+					{
+						foreach(var participant in file.Participants)
+						{
+							if(participant.Name != MyName)
+							{
+								if (names.ContainsKey(participant.Name))
+								{
+									names[participant.Name] += message.CallDuration;
+								}
+								else
+								{
+									names.Add(participant.Name, message.CallDuration);
+								}
+							}							
+						}						
+					}
+				}
+				
 			}
 		}
+		
 		return names;
 	}
 
-	public Dictionary<string, int> GetTopCallers(int year)
-	{
-		Dictionary<string, int> names = new Dictionary<string, int>();
-		foreach (var message in callMessages)
-		{
-			if (message.MessageDate().Year == year)
-			{
-				if (names.ContainsKey(message.SenderName))
-				{
-					names[message.SenderName] += message.CallDuration;
-				}
-				else
-				{
-					names.Add(message.SenderName, message.CallDuration);
-				}
-			}
-		}
-		return names;
-	}
-
-	public Dictionary<string, int> GetTopCallers(int year, int month)
-	{
-		Dictionary<string, int> names = new Dictionary<string, int>();
-		foreach (var message in callMessages)
-		{
-			if (message.MessageDate().Year == year && message.MessageDate().Month == month)
-			{
-				if (names.ContainsKey(message.SenderName))
-				{
-					names[message.SenderName] += message.CallDuration;
-				}
-				else
-				{
-					names.Add(message.SenderName, message.CallDuration);
-				}
-			}
-		}
-		return names;
-	}
 
 	public Dictionary<string, int> GetTopSenders(int year, bool excludeMe = true)
 	{

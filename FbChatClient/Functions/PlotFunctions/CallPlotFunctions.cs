@@ -24,13 +24,13 @@ internal class CallPlotFunctions : BasePlotFunctions
 
 		foreach (var name in filterednames)
 		{
-			itemsSource.Insert(0, new BarItem { Value = name.Value });
+			itemsSource.Insert(0, new BarItem { Value = name.Value/3600d });
 			labels.Insert(0, name.Key);
 		}
 
 		var barSeries = new BarSeries()
 		{
-			Title = "Minutes",
+			Title = "Hours",
 			StrokeColor = OxyColors.Black,
 			ItemsSource = itemsSource,
 			StrokeThickness = 1,

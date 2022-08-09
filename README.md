@@ -69,7 +69,8 @@ The idea is that you feed it your messenger chat data and it shows the people yo
 ## Todo:
 
 - Implement when user joined (subscribed) later or left (unsubscribed)
-- Implement call tab
+- Improve call to only include when people joined/left call
+- Make call a line graph instead
 - Automatically unzip & more complex find all jsons in all subdirectories
 - Include in readme that it requires to install .net 6.0
 - Don't lock UI on loading
