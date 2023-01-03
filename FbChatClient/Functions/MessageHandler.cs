@@ -112,7 +112,7 @@ public class MessageHandler
 
 	public Dictionary<string, int> GetTopCallers()
 	{
-		var containsmessages = rawFiles.Where(y => y.Messages.Any(x => x.Type == "Call"));
+		var containsmessages = rawFiles.Where(y => y.Messages.Any(x => x.CallDuration > 0));
 
 		Dictionary<string, int> names = new Dictionary<string, int>();
 
@@ -120,30 +120,26 @@ public class MessageHandler
 		{
 			foreach (var file in containsmessages)
 			{
-				foreach(var message in file.Messages)
+				foreach (var message in file.Messages)
 				{
-					if (message.Type == "Call")
+					foreach (var participant in file.Participants)
 					{
-						foreach(var participant in file.Participants)
+						if (participant.Name != MyName)
 						{
-							if(participant.Name != MyName)
+							if (names.ContainsKey(participant.Name))
 							{
-								if (names.ContainsKey(participant.Name))
-								{
-									names[participant.Name] += message.CallDuration;
-								}
-								else
-								{
-									names.Add(participant.Name, message.CallDuration);
-								}
-							}							
-						}						
+								names[participant.Name] += message.CallDuration;
+							}
+							else
+							{
+								names.Add(participant.Name, message.CallDuration);
+							}
+						}
 					}
 				}
-				
 			}
 		}
-		
+
 		return names;
 	}
 
